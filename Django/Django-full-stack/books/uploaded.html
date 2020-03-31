@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Favorite Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Welcome, {{ user.first_name }}</h1>
+            <form action='/logout' method='post'>
+                {% csrf_token %}
+                <input <button type="submit" class="btn btn-primary" type='submit' value='Log Out'>
+            </form>
+        </div>
+
+        <hr>
+
+        {%if book.uploader == user%}
+            <div class="content">
+                <form action="/books/{{book.id}}/update" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleInputtitle">{{ book.title }}</label>
+                        <input type="text" class="form-control" id="exampleInputfirstname" name="title">
+                    </div>
+                    <p>Added by: {{ book.uploader.first_name  }}</p>
+                    <p>Added on: {{ date }} @ {{ time }}</p>
+                    <p>Last Updated on: {{ date }} @ {{ time }}</p>
+                    <div class="form-group">
+                        <label for="exampleInputtitle">Description: {{ book.desc }}</label>
+                        <textarea name="desc" id="" cols="30" rows="10"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                <a href="{% url 'delete_book' id=book.id%}">Delete</a>
+                
+            </div>
+
+            <div class="content2">
+                <h1>Users Who Like This Book</h1>
+                <p>{{ user.first_name }}  {{ user.last_name }} <a href="/unfave/{{ book.id }}">Un-Favorite</a></p>
+
+        {%elif book.id != user %}
+            <div class="content3">
+                    <h1>{{ book.title }}</h1>
+                    <p>Added by: {{ book.uploader.first_name  }}</p>
+                    <p>Added on: {{ date }} @ {{ time }}</p>
+                    <p>Last Updated on: {{ date }} @ {{ time }}</p>
+                    <p>Description: {{ book.desc }}</p>
+                </div>
+        
+                <div class="content4">
+                    <h1>Users Who Like This Book:</h1>
+                    <p>{{ user.first_name }}  {{ user.last_name }}</p>
+                </div>
+                <a href="/fav/{{ book.id }}">Add to Favorites</a>
+            </div>
+        {%endif%}
+
+        </div>
+    </div>
+</body>
+</html>
+
+

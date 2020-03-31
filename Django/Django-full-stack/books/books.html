@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome, {{ user.first_name }}</h1>
+            <form action='/logout' method='post'>
+                {% csrf_token %}
+                <input <button type="submit" class="btn btn-primary" type='submit' value='Log Out'>
+            </form>
+        </div>
+
+        <hr>
+        <h1>Add a Favorite Book</h1>
+        {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+                {% if  message.tags %}
+                    <li class="redtext">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        {% endif %}
+        <form action="/addbook" method='POST'>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="exampleInputtitle">Title</label>
+                <input type="text" class="form-control" id="exampleInputfirstname" name="title">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputtitle">Description:</label>
+                <textarea name="desc" id="" cols="30" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+
+        <h1>All Books</h1>
+        {% for book in all_books %}
+            <p><a href="/books/{{book.id}}">{{ book.title }}</a></p>
+            <p>(Added by {{ book.uploader.first_name }})</p>
+            {%if user in book.liked_users.all %}
+                <p> this is your favorite book </p>
+            {%else%}
+                <a href="/fave/{{ book.id }}">Add to Favorites</a>
+            {% endif%}
+        {% endfor %}
+
+
+    </div>
+</body>
+
+</html>
