@@ -1,0 +1,19 @@
+
+.box {
+    width: 250px;
+    height: auto;
+    border: 2px solid black; 
+    margin: 10px;
+    text-align: center;
+    font-size: 15pt;
+    font-weight: normal;
+}
+.container {
+    width: 300px;
+    height: auto;
+    padding: 50px;
+    border: 2px solid black;
+    margin: 10px;
+    text-align: center;
+    font-size: 20pt;
+}
